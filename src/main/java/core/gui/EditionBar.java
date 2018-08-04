@@ -5,8 +5,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
- * @author astiservices
+ * Custom component that encapsulates the basic functions for a CRUD frame.
+ * It provides six buttons: one for every CRUD operation, one <i>Cancel</i> button
+ * and one <i>Edit</i> button. This buttons can be enabled/disable in different
+ * combinations (states) to allow a different set of actions for the user to perform.
+ * @author Rene Vera Apale
  */
 public class EditionBar extends javax.swing.JPanel {
     
@@ -14,7 +17,9 @@ public class EditionBar extends javax.swing.JPanel {
     private EditionBar.State state;
     
     private final Logger LOGGER = LogManager.getLogger("appLogger");
-
+    /**
+     * Initializes the components and set the preferred button size.
+     */
     public EditionBar() {
         initComponents();
         Dimension preferredButtonSize = new Dimension(32, 32);
@@ -25,7 +30,15 @@ public class EditionBar extends javax.swing.JPanel {
         btnSave.setPreferredSize(preferredButtonSize);
         btnSearch.setPreferredSize(preferredButtonSize);
     }
-    
+    /**
+     * Enables and disables specific action buttons according to the specified state.
+     * <ul><li>{@link State#EDITING State.EDITING} enables Save, Delete, and Cancel;
+     * the rest become disabled</li>
+     * <li>{@link State#ROW_SELECTED State.ROW_SELECTED} enables Search, Create, Edit, and Delete;
+     * the rest become disabled</li>
+     * <li>{@link State#STAND_BY State.STAND_BY} enables Search, and Create; the rest become disabled</li></ul>
+     * @param state 
+     */
     public void activateState(EditionBar.State state) {
         btnSearch.setEnabled(false);
         btnCreate.setEnabled(false);
@@ -58,11 +71,17 @@ public class EditionBar extends javax.swing.JPanel {
         }
         this.state = state;
     }
-    
+    /**
+     * Returns the current state of the edition bar.
+     * @return the current state of the edition bar
+     */
     public EditionBar.State getState() {
         return state;
     }
-    
+    /**
+     * Sets the frame for which this bar will trigger CRUD events
+     * @param frame The frame to which this bar is attached
+     */
     public void setCrudFrame(ICrudFrame frame) {
         crudFrame = frame;
     }
@@ -204,9 +223,24 @@ public class EditionBar extends javax.swing.JPanel {
     private javax.swing.JButton btnSearch;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Describes the different combination of actions available to the users
+     * in any given time.
+     */
     public static enum State {
+        /**
+         * Default frame state. Only Search and Create are enabled.
+         */
         STAND_BY,
+        /**
+         * Set this state when Create/Edit action is triggered. Save, Delete, and Cancel
+         * are enabled.
+         */
         EDITING,
+        /**
+         * Set this state when a row is selected in the table. Search, Create, Edit, and Delete
+         * are enabled.
+         */
         ROW_SELECTED
     }
 

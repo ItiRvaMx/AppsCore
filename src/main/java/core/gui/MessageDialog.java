@@ -4,14 +4,26 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- *
+ * Utility to display more user-friendly messages.
  * @author  Rene Vera Apale
  */
 public class MessageDialog extends JDialog {
 
+    /**
+     * Indicates the icon to be displayed for the message.
+     */
     public enum Type {
+        /**
+         * Information message.
+         */
         INFO,
+        /**
+         * Warning message.
+         */
         WARN,
+        /**
+         * Error message.
+         */
         ERROR
     }
 
@@ -68,13 +80,13 @@ public class MessageDialog extends JDialog {
      * @param msgType Determines the icon that the dialog will show
      * @param title Text to display as dialog title
      * @param shortMessage Text displayed as a manner of header to the message
-     * @param detail <p>Object that will be presented in the detail area. The process to determine
-     * what is printed is related to the value passed in this parameter:<br/>
-     * <ul><li>{@code null} will effectively display a simple dialog message.</li>
+     * @param detail Object that will be presented in the detail area. The process to determine
+     * what is printed is related to the value passed in this parameter:
+     * <ul><li>{@code null} will effectively display a simple dialog message, as per {@link JOptionPane#showMessageDialog(java.awt.Component, java.lang.Object) 
+     * JOptionPane.showMessageDialog(Component, Object)} spec.</li>
      * <li>An instance of {@link Throwable} will print a paragraph consisting of the class fully qualified name,
      * a carriage return and the value returned by the {@link Throwable#getMessage() getMessage()} method.
-     * Such steps will be repeated until the {@link Throwable#getCause() getCause()} method returns {@code null}</li>
-     * Passing an instance of {@link Throwable} wi</p>
+     * Such steps will be repeated until the {@link Throwable#getCause() getCause()} method returns {@code null}</li></ul>
      */
     public static void showMessage(Component parent, Type msgType, String title, String shortMessage, Object detail) {
         if (detail == null) { // A null detail effectively becomes a simple dialog message
